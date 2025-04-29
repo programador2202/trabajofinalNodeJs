@@ -4,7 +4,11 @@ const bodyParser = require('body-parser');
 const path = require('path');
 
 // Acceso a rutas
+const catalogoRoutes = require('./routes/catalogo');
 const rutaproducto = require('./routes/producto');
+
+
+
 
 const app = express();  // Correct variable name
 const PORT = process.env.PORT || 3000;
@@ -19,9 +23,11 @@ app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
 // Configuración de rutas
+app.use('/catalogo', catalogoRoutes);
 app.use('/', rutaproducto);  // This assumes that you have a 'producto' route module
+
 
 // Iniciar servidor
 app.listen(PORT, () => {
-    console.log(`Servidor iniciado en http://localhost:${PORT}`);
+    console.log(`Servidor iniciado en http://localhost:3000`);
 });

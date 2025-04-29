@@ -1,16 +1,17 @@
 <%- include('partials/header') %>
 
 <div class="table-responsive">
-  <table class="table table-sm">
-    <thead>
+  <table class="table table-sm table-bordered align-middle text-center">
+    <thead class="table-dark">
       <tr>
         <th>ID</th>
-        <th>Categoria</th>
-        <th>marca</th>
+        <th>Categoría</th>
+        <th>Marca</th>
         <th>Nombre</th>
         <th>Precio</th>
         <th>Imagen</th>
-        <th>fechaRegistro</th>
+        <th>Descripcion</th>
+        <th>Fecha de Registro</th>
         <th>Operaciones</th>
       </tr>
     </thead>
@@ -21,9 +22,16 @@
         <td><%= producto.categoria %></td>
         <td><%= producto.marca %></td>
         <td><%= producto.nombre %></td>
-        <td><%= producto.precio %></td>
-        <td><%= producto.imagen %></td>
-        <td><%= producto.fechaRegistro %></td>
+        <td>S/ <%= parseFloat(producto.precio).toFixed(2) %></td>
+        <td>
+          <% if (producto.imagen) { %>
+            <img src="<%= producto.imagen %>" alt="Imagen" class="img-thumbnail" style="width: 60px; height: 60px;">
+          <% } else { %>
+            <span class="text-muted">Sin imagen</span>
+          <% } %>
+        </td>
+        <td><%=producto.descripcion %> </td>
+        <td><%= new Date(producto.fechaRegistro).toLocaleDateString() %></td>
         <td>
           <a href="/edit/<%= producto.idproducto %>" class="btn btn-sm btn-info">Editar</a>
           <a href="/delete/<%= producto.idproducto %>" class="btn btn-sm btn-danger delete">Eliminar</a>
@@ -35,37 +43,32 @@
 </div>
 
 <script>
-  document.addEventListener("DOMContentLoaded",()=>{
-    const enlacesEliminar =document.querySelectorAll(".delete")
+  document.addEventListener("DOMContentLoaded", () => {
+    const enlacesEliminar = document.querySelectorAll(".delete");
 
-    enlacesEliminar.forEach((enlaces) => {
-      enlaces.addEventListener("click",(event)=> {
+    enlacesEliminar.forEach((enlace) => {
+      enlace.addEventListener("click", (event) => {
         event.preventDefault();
 
-
         Swal.fire({
-        title: 'Vehículos',
-        text: '¿Está seguro de Eliminar?',
-        icon: 'question',
-        footer: 'SENATI - Ingeniería Software',
-        confirmButtonText: 'Aceptar',
-        confirmButtonColor: '#2980b9',
-        showCancelButton: true,
-        cancelButtonText: 'Cancelar',
-        cancelButtonColor: '#c0392b'
-
-        }).then((result) =>{
-          if(result.isConfirmed){
-           window.location.href= event.target.getAttribute("href")
+          title: '¿Confirmar eliminación?',
+          text: 'Esta acción no se puede deshacer.',
+          icon: 'question',
+          footer: '<b>SENATI - Ingeniería Software</b>',
+          confirmButtonText: 'Aceptar',
+          confirmButtonColor: '#e74c3c',
+          showCancelButton: true,
+          cancelButtonText: 'Cancelar',
+          cancelButtonColor: '#95a5a6'
+        }).then((result) => {
+          if (result.isConfirmed) {
+            window.location.href = event.target.getAttribute("href");
           }
-        }); //promise
-      }); //addevenlistener
-    }); //foreach
-
-
-  }); //DomContenTLoad
-
+        });
+      });
+    });
+  });
 </script>
 
 <%- include('partials/footer') %>
-+
+
