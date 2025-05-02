@@ -4,8 +4,6 @@ CREATE DATABASE tiendaV;
 
 USE tiendaV;
 
-drop database tiendaV;
-
 
 
 CREATE TABLE categorias (
